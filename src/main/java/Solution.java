@@ -561,18 +561,112 @@ public class Solution {
     }
 
     /**
-     * 22. 括号生成
+     * 二分查找
+     *
+     * @param nums
+     * @param target
+     * @return
      */
-    public List<String> generateParenthesis(int n) {
-        List<String> list = new ArrayList<>();
-
-        return list;
+    public int search(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length;
+        int mid = nums.length / 2;
+        while (mid != l || mid != r) {
+            if (target > nums[mid]) {
+                l = mid;
+                mid = (mid + r) / 2;
+            } else if (target < nums[mid]) {
+                mid = r - 1;
+                mid = (l + mid);
+            } else {
+                return mid;
+            }
+        }
+        return -1;
     }
 
+
+    /**
+     * 二叉树的深度
+     */
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    /**
+     * 统计位数为偶数的数字
+     */
+    public int findNumbers(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (isEven(nums[i])) {
+                res++;
+            }
+        }
+        return res;
+    }
+
+    private boolean isEven(int i) {
+        boolean flag = false;
+        while (i / 10 >= 1) {
+            flag = !flag;
+            i = i / 10;
+        }
+        return flag;
+    }
+
+    /**
+     * 直线上最多的点数
+     */
+    public int maxPoints(int[][] points) {
+        int res = 1;
+        //遍历二维数组
+        for (int i = 0; i < points.length; ++i) {
+            //把二维数组中单独一个元素放入数组m中
+            int[] m = points[i];
+            for (int j = i + 1; j < points.length; ++j) {
+                //m[0]表示横坐标  m[1]表示纵坐标
+                int dx = points[j][0] - m[0]; //x
+                int dy = points[j][1] - m[1]; //y
+                int count = 0;
+                int d = dx * m[1] - dy * m[0];
+                for (int[] p : points) {
+                    if (dx * p[1] == dy * p[0] + d)
+                        ++count;
+                }
+                res = Math.max(res, count);
+            }
+        }
+        return res;
+    }
+
+    /**
+     *两整数之和
+     */
+    public int getSum(int a, int b) {
+        while(b != 0){
+            int temp = a ^ b;
+            b = (a & b) << 1;
+            a = temp;
+        }
+        return a;
+    }
     @Test
     public void test() {
-        System.out.println(mergeTwoLists(new ListNode(1, new ListNode(2, new ListNode(4, null))), new ListNode(1, new ListNode(3, new ListNode(4, null)))));
+        System.out.println(getSum(1, 2));
     }
-
 }
 
